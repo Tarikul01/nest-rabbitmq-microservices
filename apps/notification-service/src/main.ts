@@ -7,6 +7,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { DEAD_LETTER_EXCHANGE, DEAD_LETTER_QUEUE } from './assets/constant';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
@@ -15,7 +16,11 @@ async function bootstrap() {
       urls: ['amqp://admin:admin@localhost:5672'],
       queue: 'notification_queue',
       queueOptions: {
-        durable: true
+        durable: true,
+        arguments: {
+          'x-dead-letter-exchange': DEAD_LETTER_EXCHANGE,
+          'x-dead-letter-routing-key': DEAD_LETTER_QUEUE,
+        },
       },
     },
   });
