@@ -1,0 +1,12 @@
+#Get Request
+ GET http://localhost:3000/api
+
+### Create Order
+POST http://localhost:3000/api/order
+Content-Type: application/json
+
+{
+  "orderId": 101,
+  "product": "Shirt",
+  "price": 1200
+}
